@@ -80,7 +80,7 @@ int previousAveragedValue = -1;          // store the previous averaged value fo
 // Graph scaling
 const int GRAPH_X = 5;      // X start position of the graph
 const int GRAPH_WIDTH = 150; // Width of graph
-const int GRAPH_HEIGHT = 60; // Height of graph
+const int GRAPH_HEIGHT = 55; // Height of graph
 int graphY;                  // Y start position of the graph (calculated dynamically)
 
 // Define the pin for the KY-035 sensor
@@ -97,17 +97,12 @@ bool redrawRequired = true; // flag to indicate if the screen needs to be update
 
 // Function to draw a simple scrolling graph
 void drawGraph() {
-  int minValue = 0, maxValue = 3750;
+  int minValue = 30, maxValue = 4095; // no voltage on A0 = ~30 | 3.3V on A0 = 4095
 
   // Determine the min and max values for scaling
   for (int i = 0; i < NUM_READINGS; i++) {
     if (graphData[i] < minValue) minValue = graphData[i];
     if (graphData[i] > maxValue) maxValue = graphData[i];
-  }
-
-  // Avoid division by zero if min and max are the same
-  if (minValue == maxValue) {
-    maxValue += 1;
   }
 
   // Clear graph area
@@ -124,6 +119,7 @@ void drawGraph() {
     int x2 = GRAPH_X + (i * (GRAPH_WIDTH / NUM_READINGS));
     int y2 = graphY - map(graphData[i], minValue, maxValue, 0, GRAPH_HEIGHT);
     
+    // Draw the sensor reading line
     tft.drawLine(x1, y1, x2, y2, TFT_GREEN);
   }
 }
@@ -145,7 +141,7 @@ void displayStatus(int sensorValue) {
   tft.println("\nReadings over time:");
 
   // Calculate the Y position for the graph based on the text height
-  graphY = tft.getCursorY() + 70; // Add some padding below the text
+  graphY = tft.getCursorY() + 70; // add padding below the text
 
   // Draw the graph
   drawGraph();
@@ -168,7 +164,7 @@ void setup() {
   // TFT_eSPI setup
   tft.init();
   tft.setRotation(0);                     // adjust rotation (0 & 2 portrait | 1 & 3 landscape)
-  tft.fillScreen(TFT_BLACK);
+  tft.fillScreen(TFT_BLACK);              // set screen background colour (black)
   tft.setTextFont(2);                     // set the font (you can experiment with different fonts)
   tft.setTextColor(TFT_WHITE, TFT_BLACK); // set text colour (white) and background colour (black)
 }
