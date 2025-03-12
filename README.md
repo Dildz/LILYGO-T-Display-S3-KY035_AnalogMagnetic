@@ -1,56 +1,42 @@
- LILYGO T-Display-S3 2-Colour LED Project
- 
+ LILYGO T-Display-S3 KY035 Analogue Hall Magnetic Sensor Project
+
  Description:
-   This code controls a two-colour LED connected to a LilyGO T-Display-S3 microcontroller board.
+   This code reads the analog output of a KY035 Analogue Hall Magnetic Sensor Module connected to a
+   LilyGO T-Display-S3 microcontroller board.
    
-   It displays operating mode, colour changes, and button presses directly on the built-in screen using
-   the TFT_eSPI library.
+   It displays the sensor readings using a analog meter using the TFT_eSPI and TFT_eWidget libraries.
    
    The project demonstrates embedded programming concepts, including:
 
-   - Digital Outputs: Controlling the RGB LED by setting the state of GPIO pins.
-   - Variables: Storing and manipulating data, such as the current LED colour.
-   - Enumerations (Enums): Defining named constants for colors and operational modes,
-     improving code readability.
-   - Functions: Place code into reusable blocks for better organization and modularity.
-   - State Machines: Implementing different operational modes (automatic or manual colour changes)
-     based on the program's current state.
-   - Button Handling: Using the OneButton library to manage button short and long presses for
-     responsive user interaction.
-   - TFT_eSPI Library: Utilising the TFT_eSPI graphics library for direct display control.
- 
+   - Analog Inputs: Reading sensor data from an analog pin.
+   - Variables: Storing and manipulating data, such as the sensor reading and averaged values.
+   - Functions: Placing code into reusable blocks for better organization and modularity.
+   - TFT_eSPI and TFT_eWidget Libraries: Utilizing these libraries for direct display control and rendering an analog meter based off of the Meters library example.
+   - Data Averaging: Taking multiple readings and averaging them to help smooth the reading.
+   - Real-Time Meter Display: Visualizing sensor data as a needle on an analog meter.
+
  How It Works:
 
-   1. LED Control: The code manages an LED, capable of producing Red, Green.
-   2. Automatic Mode: The LED cycles through colors automatically, changing every second.
-   3. Manual Mode: The user can manually change the LED colour with each button press.
-   4. Button Interaction: The onboard "KEY" button (GPIO14) serves two purposes:
-      - Short Press: In Manual Mode, a short press cycles the LED to the next colour.
-      - Long Press (1 second): Switches between Automatic and Manual modes.
-   5. TFT_eSPI Display: The project utilises the TFT_eSPI library for displaying status,
-       colour information, and button state directly on the screen.
- 
- Core Concepts and Benefits:
-   - Helper Functions: Improve code organization, reusability, and maintainability.
-   - Enums: Enhance code readability by using descriptive names instead of raw numbers.
-   - State Machines: Simplify the management of different program behaviors and modes.
-   - OneButton Library: Provides a robust way to handle button presses and long presses without
-      requiring complex interrupt management.
-   - TFT_eSPI: Allows for direct control of the display, enabling direct feedback and state information
-      without the need of the serial monitor.
- 
+   1. Sensor Reading: The code reads the analog output of the KY035 sensor, which varies with the strength of the magnetic field.
+   2. Averaging: Multiple readings are taken and averaged to provide a more stable value.
+   3. Display Update: The averaged sensor reading is displayed as a needle on an analog meter, with the raw ADC value also shown on the screen.
+   4. TFT_eWidget Meter: The project utilizes the TFT_eWidget library to render an analog meter with zones for visual feedback.
+
  Pin Connections:
-   - Red LED        -> GPIO1
-   - Green LED      -> GPIO2
-   - Button         -> GPIO14 (built-in KEY button)
-   - LCD Backlight  -> GPIO15
-   - Ground         -> GND
- 
+
+   - Sensor (S)   -> A0 (Analog Input 0)
+   - Ground (-)   -> GND
+   - VCC (middle) -> 3.3V
+
  Notes:
-   - The OneButton library simplifies button handling by debouncing and detecting short and long presses.
-   - The TFT_eSPI library is configured to work with the LilyGO T-Display-S3, providing an easy way to
-      display information on the built-in screen.
-   - The code uses a state machine to manage the automatic and manual colour change modes, ensuring
-      clean and maintainable logic.
-   - Helper functions are moved into a .h file which is then included in main.cpp to make the project
-      even "cleaner" and easier to maintain.
+
+   - The KY035 sensor outputs an analog signal proportional to the magnetic field strength.
+   - The TFT_eSPI and TFT_eWidget libraries are configured to work with the LilyGO T-Display-S3, providing an easy way to display information on the built-in screen.
+   - The analog meter dynamically updates based on the sensor readings, providing real-time feedback.
+ 
+ KY035 Specifications:
+
+   - Operating Voltage: 2.7V to 6V
+   - Power Consumption: ~ 6mA
+   - Sensitivity: 1.4 to 2.0mV/GS
+   - Operating Temperature: -40 °C to 85 °C [-40 °F to 185 °F]
